@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de exibição</title>
+    <link rel="icon" href="imagens/1736106661099.png" type="image/x-icon">
+        <link rel="icon" href="imagens/1736106661099.png" sizes="16x16" />
+        <link rel="icon" href="imagens/1736106661099.png" sizes="32x32" type="image/png" />
+        <link rel="icon" href="imagens/1736106661099.png" sizes="48x48" type="image/png" />
+        <link rel="apple-touch-icon" href="imagens/1736106661099.png">
+</head>
+<body>
+    <style>
+         body{
+            background-image:url(imagens/agua.webp);
+        }
+        .cabecalho {
+            display: grid;
+            justify-content: center;
+        }
+        .logo{
+            height: 150px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            border: 0.1px solid;
+            padding: 10px 26px;
+        }
+        .mascote{
+            height: 40px;
+        }
+    </style>
+    <img src="imagens/mascote.webp" class="mascote" alt="mascote">
+    <div class="cabecalho">
+        <img src="imagens/Poseidon pt.webp" class="logo" alt="logo">
+    </div>
+    <div class="container">
+        <h1>Lista de Cronograma</h1>
+        <div id="clientesPosts"></div>
+    </div>
+    <script>
+        window.onload = function() {
+            const clientes = JSON.parse(localStorage.getItem('clientes'));
+            const clientesPosts = document.getElementById('clientesPosts');
+
+            clientes.forEach(cliente => {
+                const div = document.createElement('div');
+                div.className = 'cliente';
+                div.innerHTML = `
+                    <p><strong>Nome:</strong> ${cliente.nome}</p>
+                    <p><strong>Anotações:</strong> ${cliente.anotacoes}</p>
+                    <p><strong>Imagem:</strong> ${cliente.imagem ? cliente.imagem : 'N/A'}</p>
+                    <p><strong>Finalizado:</strong> ${cliente.finalizado ? 'Sim' : 'Não'}</p>
+                `;
+                clientesPosts.appendChild(div);
+            });
+            // Configura o tempo para apagar os dados após 12 horas (43200000 milissegundos)
+            setTimeout(() => {
+                localStorage.removeItem('clientes');
+                alert('Os dados dos clientes foram apagados.');
+                location.reload(); // Recarrega a página para atualizar a exibição
+            },432000005); // 12 horas em milissegundos
+        };
+    </script>
+</body>
+</html>
