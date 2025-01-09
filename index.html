@@ -48,11 +48,14 @@
             clientes.forEach(cliente => {
                 const div = document.createElement('div');
                 div.className = 'cliente';
+                const savedAt = new Date(cliente.savedAt);
+                const formattedDate = savedAt.toLocaleString('pt-BR');
                 div.innerHTML = `
                     <p><strong>Nome:</strong> ${cliente.nome}</p>
                     <p><strong>Anotações:</strong> ${cliente.anotacoes}</p>
                     <p><strong>Imagem:</strong> ${cliente.imagem ? cliente.imagem : 'N/A'}</p>
                     <p><strong>Finalizado:</strong> ${cliente.finalizado ? 'Sim' : 'Não'}</p>
+                    <p><strong>Data de Salvo:</strong> ${formattedDate}</p>
                 `;
                 clientesPosts.appendChild(div);
             });
