@@ -3,77 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabela de exibição</title>
-    <link rel="icon" href="imagens/1736106661099.png" type="image/x-icon">
+    <title>Exibição de Clientes</title>
+      <link rel="icon" href="imagens/1736106661099.png" type="image/x-icon">
         <link rel="icon" href="imagens/1736106661099.png" sizes="16x16" />
         <link rel="icon" href="imagens/1736106661099.png" sizes="32x32" type="image/png" />
         <link rel="icon" href="imagens/1736106661099.png" sizes="48x48" type="image/png" />
         <link rel="apple-touch-icon" href="imagens/1736106661099.png">
-</head>
-<body>
     <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
-  </style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
+    <h1>Clientes Cadastrados</h1>
+    
+    <table id="clientesExibicao">
+        <thead>
+            <tr>
+                <th>Nome do Cliente</th>
+                <th>Finalização</th>
+                <th>Observações</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-  <h1>Clientes Salvos</h1>
+    <script>
+        // Função para carregar e exibir os clientes armazenados
+        window.onload = function() {
+            let data = JSON.parse(localStorage.getItem('clientes'));
 
-  <table>
-    <thead>
-      <tr>
-        <th>Cliente</th>
-        <th>Finalizado</th>
-        <th>Anotações</th>
-        <th>Horário</th>
-      </tr>
-    </thead>
-    <tbody id="clientesDisplay">
-      <!-- Dados dos clientes serão exibidos aqui -->
-    </tbody>
-  </table>
+            if (data) {
+                let currentTime = new Date().getTime();
+                let elapsedTime = currentTime - data.timestamp;
 
-  <script>
-    // Função para carregar os dados armazenados
-    function carregarDados() {
-      const clientesData = JSON.parse(localStorage.getItem('clientesData'));
-
-      if (clientesData) {
-        const displayTable = document.getElementById('clientesDisplay');
-        clientesData.forEach(cliente => {
-          const newRow = displayTable.insertRow();
-          newRow.insertCell(0).textContent = cliente.cliente;
-          newRow.insertCell(1).textContent = cliente.finalizado ? 'Sim' : 'Não';
-          newRow.insertCell(2).textContent = cliente.anotacoes;
-          newRow.insertCell(3).textContent = cliente.horario;
-        });
-      }
-    }
-               // Carregar dados ao carregar a página
-    window.onload = carregarDados; 
-  
-            // Configura o tempo para apagar os dados após 12 horas (43200000 milissegundos)
-            setTimeout(() => {
-                localStorage.removeItem('clientes');
-                alert('Os dados dos clientes foram apagados.');
-                location.reload(); // Recarrega a página para atualizar a exibição
-            },432000005); // 12 horas em milissegundos
+                // Se passaram mais de 12 horas (12 horas = 43200000 milissegundos)
+                if (elapsedTime > 43200000) {
+                    localStorage.removeItem('clientes');
+                    alert('Os dados expiraram e foram removidos.');
+                } else {
+                    let tableBody = document.getElementById('clientesExibicao').getElementsByTagName('tbody')[0];
+                    data.clientes.forEach(cliente => {
+                        let row = tableBody.insertRow();
+                        row.innerHTML = `
+                            <td>${cliente.nome}</td>
+                            <td>${cliente.finalizacao ? 'Sim' : 'Não'}</td>
+                            <td>${cliente.observacoes}</td>
+                            <td>${cliente.hora}</td>
+                        `;
+                    });
+                }
+            } else {
+                alert('Não há dados armazenados ou os dados expiraram.');
+            }
         };
-
-
     </script>
-
 </body>
 </html>
