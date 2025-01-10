@@ -72,11 +72,6 @@
     savedAt: new Date().toISOString() // Salva o timestamp em formato ISO
 };
 
-// Adiciona o cliente ao localStorage
-let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-clientes.push(cliente);
-localStorage.setItem('clientes', JSON.stringify(clientes));
-
     </script>
 
 </body>
