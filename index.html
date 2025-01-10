@@ -65,6 +65,18 @@
                 location.reload(); // Recarrega a página para atualizar a exibição
             },432000005); // 12 horas em milissegundos
         };
+        const cliente = {
+    nome: 'cliente',
+    anotacoes: ${cliente.anotacoes},
+    finalizado: false,
+    savedAt: new Date().toISOString() // Salva o timestamp em formato ISO
+};
+
+// Adiciona o cliente ao localStorage
+let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+clientes.push(cliente);
+localStorage.setItem('clientes', JSON.stringify(clientes));
+
     </script>
 
 </body>
