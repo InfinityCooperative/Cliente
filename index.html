@@ -67,5 +67,18 @@
             },432000005); // 12 horas em milissegundos
         };
     </script>
+    <script>
+        const clientes = [
+    {
+        nome: 'Cliente 1',
+        anotacoes: 'Anotação 1',
+        finalizado: true,
+        savedAt: new Date().toISOString()
+    },
+    // adicione mais clientes conforme necessário
+];
+localStorage.setItem('clientes', JSON.stringify(clientes));
+
+    </script>
 </body>
 </html>
