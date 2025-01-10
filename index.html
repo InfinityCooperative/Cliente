@@ -12,52 +12,56 @@
 </head>
 <body>
     <style>
-         body{
-            background-image:url(imagens/agua.webp);
-        }
-        .cabecalho {
-            display: grid;
-            justify-content: center;
-        }
-        .logo{
-            height: 150px;
-        }
-        .container {
-            background-color: white;
-            border-radius: 10px;
-            border: 0.1px solid;
-            padding: 10px 26px;
-        }
-        .mascote{
-            height: 40px;
-        }
-    </style>
-    <img src="imagens/mascote.webp" class="mascote" alt="mascote">
-    <div class="cabecalho">
-        <img src="imagens/Poseidon pt.webp" class="logo" alt="logo">
-    </div>
-    <div class="container">
-        <h1>Lista de Cronograma</h1>
-        <div id="clientesPosts"></div>
-    </div>
-    <script>
-        window.onload = function() {
-            const clientes = JSON.parse(localStorage.getItem('clientes'));
-            const clientesPosts = document.getElementById('clientesPosts');
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
 
-            clientes.forEach(cliente => {
-                const div = document.createElement('div');
-                div.className = 'cliente';
-                const savedAt = new Date(cliente.savedAt);
-                const formattedDate = savedAt.toLocaleString('pt-BR');
-                div.innerHTML = `
-                    <p><strong>Nome:</strong> ${cliente.nome}</p>
-                    <p><strong>Anotações:</strong> ${cliente.anotacoes}</p>
-                    <p><strong>Finalizado:</strong> ${cliente.finalizado ? 'Sim' : 'Não'}</p>
-                    <p><strong>Data de Salvo:</strong> ${formattedDate}</p>
-                `;
-                clientesPosts.appendChild(div);
-            });
+  <h1>Clientes Salvos</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Finalizado</th>
+        <th>Anotações</th>
+        <th>Horário</th>
+      </tr>
+    </thead>
+    <tbody id="clientesDisplay">
+      <!-- Dados dos clientes serão exibidos aqui -->
+    </tbody>
+  </table>
+
+  <script>
+    // Função para carregar os dados armazenados
+    function carregarDados() {
+      const clientesData = JSON.parse(localStorage.getItem('clientesData'));
+
+      if (clientesData) {
+        const displayTable = document.getElementById('clientesDisplay');
+        clientesData.forEach(cliente => {
+          const newRow = displayTable.insertRow();
+          newRow.insertCell(0).textContent = cliente.cliente;
+          newRow.insertCell(1).textContent = cliente.finalizado ? 'Sim' : 'Não';
+          newRow.insertCell(2).textContent = cliente.anotacoes;
+          newRow.insertCell(3).textContent = cliente.horario;
+        });
+      }
+    }
+  
             // Configura o tempo para apagar os dados após 12 horas (43200000 milissegundos)
             setTimeout(() => {
                 localStorage.removeItem('clientes');
@@ -66,6 +70,8 @@
             },432000005); // 12 horas em milissegundos
         };
 
+          // Carregar dados ao carregar a página
+    window.onload = carregarDados;
     </script>
 
 </body>
